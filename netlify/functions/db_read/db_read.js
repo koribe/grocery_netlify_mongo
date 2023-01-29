@@ -1,4 +1,4 @@
-/*const MongoClient = require("mongodb").MongoClient;
+const MongoClient = require("mongodb").MongoClient;
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = "Gyakorlas";
@@ -20,14 +20,14 @@ const connectToDatabase = async (uri) => {
 };
 
 const queryDatabase = async (db) => {
-  const pokemon = await db.collection("grocery").find({}).toArray();
+  const grocery = await db.collection("grocery").find({}).toArray();
 
   return {
     statusCode: 200,
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(pokemon),
+    body: JSON.stringify(grocery),
   };
 };
 
@@ -38,25 +38,4 @@ module.exports.handler = async (event, context) => {
 
   const db = await connectToDatabase(MONGODB_URI);
   return queryDatabase(db);
-};*/
-const { MongoClient } = require("mongodb");
-
-const mongoClient = new MongoClient(process.env.MONGODB_URI);
-
-const clientPromise = mongoClient.connect();
-
-const handler = async (event) => {
-  try {
-    const database = (await clientPromise).db(process.env.MONGODB_DATABASE);
-    const collection = database.collection(process.env.MONGODB_COLLECTION);
-    const results = await collection.find({}).toArray();
-    return {
-      statusCode: 200,
-      body: JSON.stringify(results),
-    };
-  } catch (error) {
-    return { statusCode: 500, body: error.toString() };
-  }
 };
-
-module.exports = { handler };
