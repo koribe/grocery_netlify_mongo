@@ -36,7 +36,7 @@ const queryDatabase = async (db) => {
 //Creating new item in database
 const pushToDatabase = async (db, data) => {
   if (data) {
-    await db.collection(COLLECTION_NAME).insertOne([data]);
+    await db.collection(COLLECTION_NAME).insertOne({ data });
     return { statusCode: 201 };
   } else {
     return { statusCode: 422 };
