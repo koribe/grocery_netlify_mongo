@@ -3,7 +3,5 @@ async function createItem(newItem) {
     method: "POST",
     body: JSON.stringify({ item: newItem }),
   });
-  const response = await request.json();
-  console.log(response);
 }
 export default createItem;

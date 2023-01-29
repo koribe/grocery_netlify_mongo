@@ -15,7 +15,7 @@ async function reading() {
     htmlGroceryList.innerHTML = "";
     //A fetchelt adatbázis adatokkal felpopuláljuk a listánkat.
     fetchedItems.forEach((element) => {
-      createListItem(element.id, element.item);
+      createListItem(element._id, element.item);
     });
 
     function createListItem(id, value) {
