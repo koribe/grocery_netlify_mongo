@@ -1,4 +1,4 @@
-const MongoClient = require("mongodb").MongoClient;
+/*const MongoClient = require("mongodb").MongoClient;
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = "Gyakorlas";
@@ -38,8 +38,8 @@ module.exports.handler = async (event, context) => {
 
   const db = await connectToDatabase(MONGODB_URI);
   return queryDatabase(db);
-};
-/*const { MongoClient } = require("mongodb");
+};*/
+const { MongoClient } = require("mongodb");
 
 const mongoClient = new MongoClient(process.env.MONGODB_URI);
 
@@ -59,4 +59,4 @@ const handler = async (event) => {
   }
 };
 
-module.exports = { handler };*/
+module.exports = { handler };
