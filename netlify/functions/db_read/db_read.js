@@ -2,6 +2,7 @@ const MongoClient = require("mongodb").MongoClient;
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = "Gyakorlas";
+const COLLECTION_NAME = "grocery";
 
 let cachedDb = null;
 
@@ -19,8 +20,9 @@ const connectToDatabase = async (uri) => {
   return cachedDb;
 };
 
+//Reading data from database
 const queryDatabase = async (db) => {
-  const grocery = await db.collection("grocery").find({}).toArray();
+  const grocery = await db.collection(COLLECTION_NAME).find({}).toArray();
 
   return {
     statusCode: 200,
@@ -31,11 +33,28 @@ const queryDatabase = async (db) => {
   };
 };
 
+//Creating new item in database
+const pushToDatabase = async (db, data) => {
+  if (data) {
+    await db.collection(COLLECTION_NAME).insertOne([data]);
+    return { statusCode: 201 };
+  } else {
+    return { statusCode: 422 };
+  }
+};
+
 module.exports.handler = async (event, context) => {
   // otherwise the connection will never complete, since
   // we keep the DB connection alive
   context.callbackWaitsForEmptyEventLoop = false;
 
   const db = await connectToDatabase(MONGODB_URI);
-  return queryDatabase(db);
+  switch (event.httpMethod) {
+    case "GET":
+      return queryDatabase(db);
+    case "POST":
+      return pushToDatabase(db, JSON.parse(event.body));
+    default:
+      return { statusCode: 400 };
+  }
 };

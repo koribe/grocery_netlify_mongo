@@ -1,13 +1,9 @@
 async function createItem(newItem) {
-  const response = await fetch("http://127.0.0.1:4000/create", {
+  const request = await fetch("/.netlify/functions/db_read", {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify({ item: newItem }),
   });
-  const fetchedRes = await response.json();
-  console.log(fetchedRes);
+  const response = await request.json();
+  console.log(response);
 }
 export default createItem;
