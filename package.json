@@ -4,7 +4,7 @@
   "description": "MongoDB driven grocery list app",
   "main": "index.html",
   "scripts": {
-    "build": "npm build",
+    "build": "npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ki_ez_te",
