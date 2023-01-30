@@ -164,11 +164,12 @@ p {
   width: 90vw;
   margin: 0 auto;
   max-width: 35rem;
-  margin-top: 8rem;
+  margin-top: 2rem;
 }
 @media screen and (min-width: 992px) {
   .section-center {
     width: 95vw;
+    margin-top: 8rem;
   }
 }
 main {
@@ -217,14 +218,22 @@ Grocery List
 }
 .form-control {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+@media screen and (min-width: 992px) {
+  .form-control {
+    flex-direction: row;
+  }
 }
 #grocery {
   padding: 0.25rem;
   padding-left: 1rem;
   background: var(--clr-grey-10);
   border-top-left-radius: var(--radius);
-  border-bottom-left-radius: var(--radius);
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: 0;
   border-color: transparent;
   font-size: 1rem;
   flex: 1 0 auto;
@@ -234,17 +243,27 @@ Grocery List
   font-family: var(--ff-secondary);
   color: var(--clr-grey-5);
 }
+@media screen and (min-width: 992px) {
+  #grocery {
+    border-top-left-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
 .submit-btn {
   background: var(--clr-primary-8);
   border-color: transparent;
-  flex: 0 0 5rem;
+  flex: 0 0 2rem;
   display: grid;
   align-items: center;
   padding: 0.25rem;
   text-transform: capitalize;
   letter-spacing: 2px;
-  border-top-right-radius: var(--radius);
+  border-top-right-radius: 0;
   border-bottom-right-radius: var(--radius);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: var(--radius);
   cursor: pointer;
   content: var(--clr-primary-5);
   transition: var(--transition);
@@ -253,6 +272,15 @@ Grocery List
 .submit-btn:hover {
   background: var(--clr-primary-5);
   color: var(--clr-white);
+}
+@media screen and (min-width: 992px) {
+  .submit-btn {
+    flex: 0 0 5rem;
+    border-top-right-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 
 .grocery-container {
