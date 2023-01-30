@@ -1,3 +1,5 @@
+const { ObjectId } = require("mongodb");
+
 const MongoClient = require("mongodb").MongoClient;
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -43,6 +45,18 @@ const pushToDatabase = async (db, data) => {
   }
 };
 
+//Deleting grocery item from database
+const delFromDatabase = async (db, data) => {
+  if (data) {
+    const oid = ObjectId(data._id);
+    console.log(oid);
+    await db.collection(COLLECTION_NAME).deleteOne({ _id: oid });
+    return { statusCode: 204 };
+  } else {
+    return { statusCode: 404 };
+  }
+};
+
 module.exports.handler = async (event, context) => {
   // otherwise the connection will never complete, since
   // we keep the DB connection alive
@@ -54,6 +68,8 @@ module.exports.handler = async (event, context) => {
       return queryDatabase(db);
     case "POST":
       return pushToDatabase(db, JSON.parse(event.body));
+    case "DELETE":
+      return delFromDatabase(db, JSON.parse(event.body));
     default:
       return { statusCode: 400 };
   }
