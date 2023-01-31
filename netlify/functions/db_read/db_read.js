@@ -48,8 +48,13 @@ const pushToDatabase = async (db, data) => {
 //Deleting grocery item from database
 const delFromDatabase = async (db, data) => {
   if (data) {
+    //if http request's body exist and the body have an _id property with "all" string value, then delete all document from collection
+    if (data._id === "all") {
+      await db.collection(COLLECTION_NAME).deleteMany({});
+      return { statusCode: 204 };
+    }
+    //if _id is not "all", then delete the first document from the collection with _id the same as http request's body _id property
     const oid = ObjectId(data._id);
-    console.log(oid);
     await db.collection(COLLECTION_NAME).deleteOne({ _id: oid });
     return { statusCode: 204 };
   } else {
