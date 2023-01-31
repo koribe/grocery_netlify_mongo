@@ -12,7 +12,7 @@ async function reading() {
   readData().then((fetchedItems) => {
     //We remove classlist from htmlGroceryContainer because after delete request the collection can be empty
     htmlGroceryContainer.classList.remove("show-container");
-
+    newItemName.value = "";
     htmlGroceryList.innerHTML = "";
     if (fetchedItems.length > 0) {
       htmlGroceryContainer.classList.add("show-container");
