@@ -35,7 +35,7 @@ const queryDatabase = async (db) => {
   };
 };
 
-//Creating new item in database
+//Creating new document in collection
 const pushToDatabase = async (db, data) => {
   if (data) {
     await db.collection(COLLECTION_NAME).insertOne(data);
@@ -45,7 +45,21 @@ const pushToDatabase = async (db, data) => {
   }
 };
 
-//Deleting grocery item from database
+//Edit document
+const editDatabase = async (db, data) => {
+  if (data) {
+    const oid = ObjectId(data._id);
+    const item = data.item;
+    await db
+      .collection(COLLECTION_NAME)
+      .updateOne({ _id: oid }, { $set: { item: item } });
+    return { statusCode: 204 };
+  } else {
+    return { statusCode: 404 };
+  }
+};
+
+//Deleting document from collection
 const delFromDatabase = async (db, data) => {
   if (data) {
     //if http request's body exist and the body have an _id property with "all" string value, then delete all document from collection
@@ -73,6 +87,8 @@ module.exports.handler = async (event, context) => {
       return queryDatabase(db);
     case "POST":
       return pushToDatabase(db, JSON.parse(event.body));
+    case "PATCH":
+      return editDatabase(db, JSON.parse(event.body));
     case "DELETE":
       return delFromDatabase(db, JSON.parse(event.body));
     default:
