@@ -161,15 +161,17 @@ p {
 }
 
 .section-center {
-  width: 90vw;
+  width: 95vw;
   margin: 0 auto;
   max-width: 35rem;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
 }
 @media screen and (min-width: 992px) {
   .section-center {
     width: 95vw;
     margin-top: 8rem;
+    padding: 2rem;
   }
 }
 main {
@@ -187,7 +189,6 @@ Grocery List
   border-radius: var(--radius);
   box-shadow: var(--light-shadow);
   transition: var(--transition);
-  padding: 2rem;
 }
 .section-center:hover {
   box-shadow: var(--dark-shadow);
@@ -355,6 +356,7 @@ Grocery List
   color: var(--clr-red-dark);
 }
 #edit-input {
+  max-width: 12rem;
   background: var(--clr-grey-10);
   border-color: transparent;
   font-size: 1rem;
