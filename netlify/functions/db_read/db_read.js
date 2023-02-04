@@ -3,8 +3,8 @@ const { ObjectId } = require("mongodb");
 const MongoClient = require("mongodb").MongoClient;
 
 const MONGODB_URI = process.env.MONGODB_URI;
-const DB_NAME = "Gyakorlas";
-const COLLECTION_NAME = "grocery";
+const DB_NAME = process.env.MONGODB_DATABASE;
+const COLLECTION_NAME = process.env.MONGODB_COLLECTION;
 
 let cachedDb = null;
 

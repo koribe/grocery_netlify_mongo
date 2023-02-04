@@ -2,11 +2,17 @@ import readData from "./src/read.js";
 import createItem from "./src/create.js";
 import editDatabase from "./src/edit.js";
 import deleteDatabase from "./src/delete.js";
+import { openEdit, closeEdit } from "./src/functions/editInput.js";
 
 const htmlGroceryContainer = document.querySelector(".grocery-container");
 const htmlGroceryList = document.querySelector(".grocery-list");
+const alert = document.querySelector(".alert");
 
-//Read
+let userName = "";
+let editFlag = false;
+let originalValue = "";
+
+//Read-------------------------------------------------------
 //When page is loading and after every database operation, we fetch the data from mongodb
 async function reading() {
   readData().then((fetchedItems) => {
@@ -43,9 +49,13 @@ async function reading() {
 
         const editBtn = element.querySelector(".edit-btn");
         //On edit button click we call the editItem function with the parameter of the Article Object that contains the clicked edit button.
-        editBtn.addEventListener("click", () =>
-          editItem(editBtn.parentElement.parentElement)
-        );
+        editBtn.addEventListener("click", () => {
+          if (editFlag) {
+            closeEdit(originalValue);
+            editFlag = false;
+          }
+          editItem(editBtn.parentElement.parentElement);
+        });
 
         const deleteBtn = element.querySelector(".delete-btn");
         //On delete button click we call the deleteItem function with the parameter "data-id" of the clicked delete button's containing Article.
@@ -60,39 +70,96 @@ async function reading() {
 }
 reading();
 
-//Create
+//Create----------------------------------------------------------------
 //On new item creation, we call the createItem function what sends the request with the data to mongodb
-async function newItemCreation() {
-  await createItem(newItemName.value);
-  reading();
-}
+
 const newItemName = document.getElementById("grocery");
 const newItemBtn = document.querySelector(".submit-btn");
 newItemBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  newItemCreation();
+  if (newItemName.value !== "") {
+    newItemCreation();
+  } else {
+    displayAlert("Hiányzó tételnév", "danger");
+  }
 });
 
-//Edit
-//We request the new item name from the user, call the editDatabase function with parameters of
-//the edited list item's data-id and the new item name
-//After that we read the documents from the collection
-async function editItem(clickedArticle) {
-  const itemID = clickedArticle.attributes[0].value; //attribute data-id
-  const itemName = clickedArticle.children[0].innerHTML;
-  const editItemName = prompt("", itemName);
-  if (editItemName !== null) {
-    await editDatabase(itemID, editItemName);
-    reading();
-  }
+async function newItemCreation() {
+  await createItem(newItemName.value);
+  displayAlert("Tétel a listához adva", "success");
+  reading();
 }
 
-//Delete
+//Edit-------------------------------------------------------------------
+async function editItem(clickedArticle) {
+  const itemID = clickedArticle.attributes[0].value; //attribute data-id
+  originalValue = clickedArticle.children[0].innerHTML;
+  editFlag = true;
+
+  //We change the original paragraph with input, accept and cancel buttons
+  openEdit(originalValue, clickedArticle);
+  const editInput = document.getElementById("edit-input");
+  editInput.focus();
+  document
+    .getElementsByClassName("deny-edit")[0]
+    .addEventListener("click", () => {
+      closeEdit(originalValue);
+      editFlag = false;
+    });
+  const acceptEdit = document.getElementsByClassName("accept-edit")[0];
+  //Enterre kéne nyomnia egy a módosítást
+  acceptEdit.addEventListener("click", async () => {
+    //Checks if the input value is an empty string
+    if (editInput.value === "") {
+      editInput.value = originalValue;
+      editInput.focus();
+      displayAlert("Hiányzó tétel név", "danger");
+    } else {
+      //If the edited name is equal as the original name, close the edit
+      if (editInput.value === originalValue) {
+        closeEdit(originalValue);
+        editFlag = false;
+        displayAlert("Nem történt változtatás", "success");
+      } else {
+        //Checks if the list already contains the input value
+        let contains = false;
+        const allItemName = document.getElementsByClassName("title");
+        for (let item of allItemName) {
+          contains = item.innerHTML === editInput.value ? true : false;
+          if (contains) break;
+        }
+        if (contains) {
+          editInput.focus();
+          displayAlert("Már szerepel a listán", "danger");
+        } else {
+          //Request the collection update from the MongoDB server with the new name
+          await editDatabase(itemID, editInput.value);
+          editFlag = false;
+          displayAlert("Tétel módosítva", "success");
+          reading();
+        }
+      }
+    }
+  });
+}
+
+//Delete---------------------------------------------------------
 async function deleteItem(itemID) {
   await deleteDatabase(itemID);
   reading();
 }
 
-//Delete All
+//Delete All-----------------------------------------------------
 const deleteAllBtn = document.querySelector(".clear-btn");
 deleteAllBtn.addEventListener("click", () => deleteItem("all"));
+
+// display alert
+function displayAlert(text, action) {
+  alert.textContent = text;
+  alert.classList.add(`alert-${action}`);
+  // remove alert
+  setTimeout(function () {
+    alert.textContent = "";
+    alert.classList.remove(`alert-${action}`);
+  }, 1000);
+}

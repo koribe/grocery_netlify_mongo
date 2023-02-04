@@ -354,3 +354,10 @@ Grocery List
 .clear-btn:hover {
   color: var(--clr-red-dark);
 }
+#edit-input {
+  background: var(--clr-grey-10);
+  border-color: transparent;
+  font-size: 1rem;
+  color: var(--clr-grey-5);
+  border-radius: var(--radius);
+}
