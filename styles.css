@@ -310,10 +310,15 @@ Grocery List
   color: var(--clr-grey-5);
 }
 .title {
+  display: flex;
   margin-bottom: 0;
   color: var(--clr-grey-1);
   letter-spacing: 2px;
   transition: var(--transition);
+}
+.btn-container {
+  display: flex;
+  flex-direction: row;
 }
 .edit-btn,
 .delete-btn {
@@ -362,4 +367,10 @@ Grocery List
   font-size: 1rem;
   color: var(--clr-grey-5);
   border-radius: var(--radius);
+}
+@media screen and (min-width: 992px) {
+  #edit-input {
+    max-width: 18rem;
+    width: 18rem;
+  }
 }

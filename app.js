@@ -107,9 +107,10 @@ async function editItem(clickedArticle) {
       editFlag = false;
     });
   const acceptEdit = document.getElementsByClassName("accept-edit")[0];
-  //Enterre kéne nyomnia egy a módosítást
-  acceptEdit.addEventListener("click", async () => {
+
+  acceptEdit.addEventListener("click", async (e) => {
     //Checks if the input value is an empty string
+    e.preventDefault();
     if (editInput.value === "") {
       editInput.value = originalValue;
       editInput.focus();
