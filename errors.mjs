@@ -1,0 +1,4 @@
+export const errors = {
+  UNKNOWN_ERROR: 100000,
+  INVALID_DATABASE_USERNAME: 100001,
+};
