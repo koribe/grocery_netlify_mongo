@@ -8,27 +8,46 @@
     <!-- font-awesome -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
     <!-- styles -->
     <link rel="stylesheet" href="styles.css" />
     <!-- javascript -->
     <script type="module" src="app.mjs"></script>
   </head>
   <body>
+    <section id="modal-window" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Login</h2>
+        </div>
+        <p id="modal-alert" class="alert"></p>
+        <form id="modal-log-reg" class="animate"></form>
+      </div>
+    </section>
     <section class="section-center">
       <!-- form -->
       <form class="grocery-form">
-        <p class="alert"></p>
+        <p id="list-alert" class="alert"></p>
         <h3>grocery bud</h3>
         <div class="form-control">
           <input type="text" id="grocery" placeholder="pl: kenyér" />
-          <button type="submit" class="submit-btn">listára</button>
+          <button type="submit" class="submit-btn" title="Add item">
+            listára
+          </button>
         </div>
       </form>
       <!-- list -->
       <div class="grocery-container">
         <div class="grocery-list"></div>
-        <button type="button" class="clear-btn">Lista törlése</button>
+        <button type="button" class="clear-btn" title="Delete all">
+          Lista törlése
+        </button>
+      </div>
+      <div id="logout-container">
+        <p id="current-login"></p>
+        <button type="button" id="logout-btn" title="Logout">
+          <i class="fa-solid fa-door-open"></i>
+        </button>
       </div>
     </section>
   </body>

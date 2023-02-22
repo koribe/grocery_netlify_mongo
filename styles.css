@@ -320,6 +320,7 @@ Grocery List
   display: flex;
   flex-direction: row;
 }
+#logout-btn,
 .edit-btn,
 .delete-btn {
   background: transparent;
@@ -340,6 +341,18 @@ Grocery List
 }
 .delete-btn:hover {
   color: var(--clr-red-dark);
+}
+#logout-container {
+  display: none;
+  justify-content: right;
+}
+#logout-btn {
+  margin: 0.15rem;
+  color: var(--clr-grey-5);
+  font-size: 1.5rem;
+}
+#logout-btn:hover {
+  color: var(--clr-grey-1);
 }
 .clear-btn {
   text-transform: capitalize;
@@ -374,3 +387,123 @@ Grocery List
     width: 18rem;
   }
 }
+
+/*Modal css-------------------------------------------------start*/
+/* Full-width input fields */
+.modal input[type="text"],
+.modal input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+.modal-btn {
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0;
+}
+
+/* Extra styles for the footer button */
+.footer-btn {
+  width: 90%;
+  display: block;
+  margin: auto;
+  padding: 10px 18px;
+}
+#login-btn {
+  background: var(--clr-green-light);
+}
+#login-btn:hover {
+  background: var(--clr-green-dark);
+}
+#register-btn {
+  background: var(--clr-red-light);
+}
+#register-btn:hover {
+  background: var(--clr-red-dark);
+}
+
+/* Center the image and position the close button */
+.modal-header {
+  text-align: center;
+  margin: 0.5rem 0 0.25rem 0;
+  position: relative;
+}
+
+.form-container {
+  padding: 16px;
+  background-color: #f1f1f1;
+}
+.modal-footer {
+  padding: 16px;
+  background-color: #f1f1f1;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(105, 105, 105); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  padding: 0.5rem;
+  background-color: #fefefe;
+  margin: auto;
+  margin-top: 5vh;
+  border: 1px solid #888;
+  width: 89vw;
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .modal-content {
+    padding: 1rem;
+    width: 70vw;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .modal-content {
+    padding: 2rem;
+    width: 40vw;
+  }
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s;
+}
+
+@-webkit-keyframes animatezoom {
+  from {
+    -webkit-transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes animatezoom {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+/*Modal css--------------------------------------------------end*/
