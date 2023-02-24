@@ -346,6 +346,9 @@ Grocery List
   display: none;
   justify-content: right;
 }
+#current-login {
+  margin: auto 0;
+}
 #logout-btn {
   margin: 0.15rem;
   color: var(--clr-grey-5);
