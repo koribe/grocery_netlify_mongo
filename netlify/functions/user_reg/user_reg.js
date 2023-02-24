@@ -14,7 +14,21 @@ const createUser = async (db, username, password) => {
     throw { code: errors.USER_REG_EXISTS };
   }
 
-  bcrypt.genSalt(10, function (saltError, salt) {
+  try {
+    // Generate a salt
+    const salt = await bcrypt.genSalt(10);
+
+    // Hash password
+    const hash = await bcrypt.hash(password, salt);
+
+    await db.collection(USER_COLLECTION).insertOne({
+      name: username,
+      password: hash,
+    });
+  } catch (error) {
+    throw { code: errors.PWD_HASH_ERROR, error: error };
+  }
+  /*bcrypt.genSalt(10, function (saltError, salt) {
     if (saltError) {
       throw { code: errors.PWD_SALT_ERROR, error: saltError };
     } else {
@@ -29,7 +43,7 @@ const createUser = async (db, username, password) => {
         });
       });
     }
-  });
+  });*/
 };
 
 export async function handler(event, context) {
