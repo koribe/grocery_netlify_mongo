@@ -1,17 +1,19 @@
-import { MongoServerError } from "mongodb";
 import { userDbConnect } from "../utils/userDbConnect.js";
 import { httpResponse } from "../utils/httpResponse.js";
-import { errors } from "../../../errors.mjs";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { transformToApiError } from "../utils/transformToApiError.js";
+import { LoginMissingInputs } from "../utils/errors/LoginMissingInputs.js";
+import { LoginNoUser } from "../utils/errors/LoginNoUser.js";
+import { LoginPwdIncorrect } from "../utils/errors/LoginPwdIncorrect.js";
 
 const USER_COLLECTION = process.env.USER_COLLECTION;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const queryDatabase = async (db, username) => {
+const queryUser = async (db, username) => {
   const user = await db.collection(USER_COLLECTION).findOne({ name: username });
   if (!user) {
-    throw { code: errors.USER_NAME_AUTH_FAIL };
+    throw new LoginNoUser("Username doesn't exists!");
   }
   return user;
 };
@@ -22,10 +24,10 @@ export async function handler(event, context) {
     const requestBody = JSON.parse(event.body);
     //Checks if login request contains username and password
     if (!(requestBody.username && requestBody.password)) {
-      throw { code: errors.MISSING_AUTH_INPUTS };
+      throw new LoginMissingInputs("Missing login inputs!");
     }
     //Get the user from collection
-    const user = await queryDatabase(db, requestBody.username);
+    const user = await queryUser(db, requestBody.username);
 
     //Compare the request password's hash with the stored hash
     const pwdIsCorrect = await bcrypt.compare(
@@ -33,41 +35,15 @@ export async function handler(event, context) {
       user.password
     );
     if (!pwdIsCorrect) {
-      throw { code: errors.USER_PWD_AUTH_FAIL };
+      throw new LoginPwdIncorrect("Password is incorrect!");
     }
     //If everything is fine,we send back the jwt to the client
-    const token = jwt.sign({ user_id: user._id }, JWT_SECRET);
+    const token = jwt.sign(
+      { username: user.name, user_id: user._id },
+      JWT_SECRET
+    );
     return httpResponse(200, { token: token });
   } catch (error) {
-    console.error("Something went wrong (user_validation):", error);
-    if (error instanceof MongoServerError && error.code === 8000) {
-      return httpResponse(401, {
-        code: errors.DB_AUTH_FAIL,
-        error:
-          "Database authentication failed(Invalid DB username, password or cluster)",
-      });
-    }
-    if (error.code === errors.USER_NAME_AUTH_FAIL) {
-      return httpResponse(401, {
-        code: errors.USER_NAME_AUTH_FAIL,
-        error: "Username doesn't exist!",
-      });
-    }
-    if (error.code === errors.USER_PWD_AUTH_FAIL) {
-      return httpResponse(401, {
-        code: errors.USER_PWD_AUTH_FAIL,
-        error: "Password is incorrect!",
-      });
-    }
-    if (error.code === errors.MISSING_AUTH_INPUTS) {
-      return httpResponse(401, {
-        code: errors.MISSING_AUTH_INPUTS,
-        error: "Missing authentication inputs!",
-      });
-    }
-    return httpResponse(500, {
-      code: errors.UNKNOWN_ERROR,
-      error: "An error occurred. Please try again!",
-    });
+    return transformToApiError(error);
   }
 }

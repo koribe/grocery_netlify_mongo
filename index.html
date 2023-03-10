@@ -30,7 +30,11 @@
         <p id="list-alert" class="alert"></p>
         <h3>grocery bud</h3>
         <div class="form-control">
-          <input type="text" id="grocery" placeholder="pl: kenyér" />
+          <input
+            type="text"
+            id="grocery"
+            maxlength="30"
+            placeholder="Hozzáadás a listához" />
           <button type="submit" class="submit-btn" title="Add item">
             listára
           </button>
@@ -38,6 +42,7 @@
       </form>
       <!-- list -->
       <div class="grocery-container">
+        <div id="loading"></div>
         <div class="grocery-list"></div>
         <button type="button" class="clear-btn" title="Delete all">
           Lista törlése

@@ -5,7 +5,7 @@ const DB_NAME = process.env.GROCERY_DATABASE;
 
 let cachedDb = null;
 
-export async function dbConnect() {
+export async function groceryDbConnect() {
   // we can cache the access to our database to speed things up a bit
   // (this is the only thing that is safe to cache here)
   if (cachedDb) return cachedDb;

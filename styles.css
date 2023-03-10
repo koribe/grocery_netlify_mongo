@@ -287,7 +287,7 @@ Grocery List
 .grocery-container {
   margin-top: 2rem;
   transition: var(--transition);
-  visibility: hidden;
+  visibility: visible;
 }
 .show-container {
   visibility: visible;
@@ -361,6 +361,7 @@ Grocery List
   text-transform: capitalize;
   width: 10rem;
   height: 1.5rem;
+  visibility: hidden;
   display: grid;
   align-items: center;
   background: transparent;
@@ -372,6 +373,9 @@ Grocery List
   cursor: pointer;
   transition: var(--transition);
   margin-top: 1.25rem;
+}
+.show-clear-btn {
+  visibility: visible;
 }
 .clear-btn:hover {
   color: var(--clr-red-dark);
@@ -388,6 +392,28 @@ Grocery List
   #edit-input {
     max-width: 18rem;
     width: 18rem;
+  }
+}
+
+#loading {
+  width: 2rem;
+  height: 2rem;
+  border: 5px solid var(--clr-white);
+  border-top: 6px solid var(--clr-primary-6);
+  border-radius: 100%;
+  margin: auto;
+  visibility: hidden;
+  animation: spin 1s infinite linear;
+}
+#loading.display {
+  visibility: visible;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 

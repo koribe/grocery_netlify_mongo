@@ -1,4 +1,4 @@
-import { errors } from "../../errors.mjs";
+import fetchErrorHandler from "../functions/fetchErrorHandler.js";
 
 async function requestLogin(username, password) {
   try {
@@ -8,30 +8,7 @@ async function requestLogin(username, password) {
     });
     const responseBody = await response.json();
     if (!response.ok) {
-      if (responseBody && responseBody.code === errors.DB_AUTH_FAIL) {
-        return {
-          statusCode: response.status,
-          body: `Hibás adatbázis adatok! Keresd fel az oldal üzemeltetőjét!`,
-        };
-      }
-      if (responseBody && responseBody.code === errors.USER_NAME_AUTH_FAIL) {
-        return {
-          statusCode: response.status,
-          body: `Nincs ilyen felhasználó!`,
-        };
-      }
-      if (responseBody && responseBody.code === errors.USER_PWD_AUTH_FAIL) {
-        return {
-          statusCode: response.status,
-          body: `Helytelen jelszó`,
-        };
-      }
-      if (responseBody && responseBody.code === errors.MISSING_AUTH_INPUTS) {
-        return {
-          statusCode: response.status,
-          body: `Hiányzó bejelentkezési adatok!`,
-        };
-      }
+      if (responseBody) return fetchErrorHandler(responseBody);
       return {
         statusCode: response.status,
         body: `Hiba történt a bejelentkezés közben! ${response.statusText} Próbáld újra!`,
@@ -45,9 +22,7 @@ async function requestLogin(username, password) {
     console.error(error);
     return {
       statusCode: 500,
-      body: JSON.stringify({
-        message: `Szerver hiba: ${error.message}`,
-      }),
+      body: `Szerver hiba: ${error.message}`,
     };
   }
 }

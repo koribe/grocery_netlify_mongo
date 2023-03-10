@@ -1,4 +1,4 @@
-import { errors } from "../../errors.mjs";
+import fetchErrorHandler from "../functions/fetchErrorHandler.js";
 
 async function requestReg(username, password, regkey) {
   try {
@@ -12,31 +12,7 @@ async function requestReg(username, password, regkey) {
     });
     const responseBody = await response.json();
     if (!response.ok) {
-      if (responseBody && responseBody.code === errors.DB_AUTH_FAIL) {
-        return {
-          statusCode: response.status,
-          body: `Hibás adatbázis adatok! Keresd fel az oldal üzemeltetőjét!`,
-        };
-      }
-
-      if (responseBody && responseBody.code === errors.MISSING_REG_INPUTS) {
-        return {
-          statusCode: response.status,
-          body: `Hiányzó regisztrációs adatok!`,
-        };
-      }
-      if (responseBody && responseBody.code === errors.INVALID_REGKEY) {
-        return {
-          statusCode: response.status,
-          body: `Hibás regisztrációs kulcs!`,
-        };
-      }
-      if (responseBody && responseBody.code === errors.USER_REG_EXISTS) {
-        return {
-          statusCode: response.status,
-          body: `A felhasználónév már foglalt!`,
-        };
-      }
+      if (responseBody) return fetchErrorHandler(responseBody);
 
       return {
         statusCode: response.status,
@@ -50,9 +26,7 @@ async function requestReg(username, password, regkey) {
     console.error(error);
     return {
       statusCode: 500,
-      body: JSON.stringify({
-        message: `Szerver hiba: ${error.message}`,
-      }),
+      body: `Szerver hiba: ${error.message}`,
     };
   }
 }
