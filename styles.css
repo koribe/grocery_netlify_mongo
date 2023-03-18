@@ -166,18 +166,41 @@ p {
   max-width: 35rem;
   margin-top: 0.5rem;
   padding: 0.5rem;
+  padding-bottom: 0;
 }
 @media screen and (min-width: 992px) {
   .section-center {
     width: 95vw;
     margin-top: 8rem;
     padding: 2rem;
+    padding-bottom: 0.5rem;
   }
 }
 main {
   min-height: 100vh;
   display: grid;
   place-items: center;
+}
+footer {
+  padding-top: 0.5rem;
+  text-align: center;
+}
+.separator {
+  display: none;
+}
+@media screen and (min-width: 992px) {
+  footer {
+    padding-top: 2rem;
+  }
+  footer br {
+    display: none;
+  }
+  .separator {
+    display: inline;
+  }
+}
+#author {
+  color: var(--clr-grey-8);
 }
 /*
 =============== 
@@ -402,11 +425,11 @@ Grocery List
   border-top: 6px solid var(--clr-primary-6);
   border-radius: 100%;
   margin: auto;
-  visibility: hidden;
+  display: none;
   animation: spin 1s infinite linear;
 }
 #loading.display {
-  visibility: visible;
+  display: block;
 }
 @keyframes spin {
   from {

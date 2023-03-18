@@ -5,7 +5,16 @@
   "main": "index.html",
   "scripts": {
     "build": "npm install",
-    "test": "jest"
+    "test": "jest tests"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "functions",
+      "node_modules"
+    ]
   },
   "type": "module",
   "author": "Ki_ez_te",
