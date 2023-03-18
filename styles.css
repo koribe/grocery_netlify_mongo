@@ -418,18 +418,18 @@ Grocery List
   }
 }
 
-#loading {
+.loading {
   width: 2rem;
   height: 2rem;
   border: 5px solid var(--clr-white);
   border-top: 6px solid var(--clr-primary-6);
   border-radius: 100%;
   margin: auto;
-  display: none;
+  visibility: hidden;
   animation: spin 1s infinite linear;
 }
-#loading.display {
-  display: block;
+.loading.display {
+  visibility: visible;
 }
 @keyframes spin {
   from {

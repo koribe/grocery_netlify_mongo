@@ -3,18 +3,19 @@ import populateList from "./populateList.mjs";
 import {
   newItemName,
   htmlGroceryList,
-  loading,
   deleteAllBtn,
   Variables,
+  groceryLoad,
 } from "../../globalVars.mjs";
 import requestRead from "../groceryApiCalls/requestRead.js";
 import groceryDisplayAlert from "../functions/groceryDisplayAlert.mjs";
+import loadingToggle from "../functions/loadingToggle.mjs";
 
 export default async function dbRead() {
-  displayLoading();
+  loadingToggle(groceryLoad); //loading state on
   deleteAllBtn.classList.remove("show-clear-btn");
   const readResponse = await requestRead(Variables.jwt);
-  hideLoading();
+  loadingToggle(groceryLoad); //loading state off
   if (readResponse.status !== "success")
     groceryDisplayAlert(readResponse.body, readResponse.status);
   else {
@@ -38,10 +39,10 @@ export default async function dbRead() {
 
 // showing loading
 function displayLoading() {
-  loading.classList.add("display");
+  groceryLoad.classList.add("display");
 }
 
 // hiding loading
 function hideLoading() {
-  loading.classList.remove("display");
+  groceryLoad.classList.remove("display");
 }

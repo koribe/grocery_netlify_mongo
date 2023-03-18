@@ -1,3 +1,5 @@
+import { modalLoad } from "../../globalVars.mjs";
+import loadingToggle from "../functions/loadingToggle.mjs";
 import { loginHtml, registerHtml } from "./modalHtml.mjs";
 import requestLogin from "./requestLogin.mjs";
 import requestReg from "./requestReg.mjs";
@@ -23,10 +25,12 @@ async function userLogReg() {
         displayModalAlert("Hiányzó belépési adatok", "danger");
       } else {
         e.preventDefault();
+        loadingToggle(modalLoad); //Modal loading on
         const responseLogin = await requestLogin(
           inputs[0].value,
           inputs[1].value
         );
+        loadingToggle(modalLoad); //Modal loading off
         if (responseLogin.statusCode !== 200) {
           displayModalAlert(responseLogin.body, "danger");
         } else {
@@ -59,11 +63,13 @@ async function userLogReg() {
         if (inputs[1].value !== inputs[2].value) {
           displayModalAlert("Nem egyezik a két jelszó", "danger");
         } else {
+          loadingToggle(modalLoad); //Modal loading on
           const responseReg = await requestReg(
             inputs[0].value,
             inputs[1].value,
             inputs[3].value
           );
+          loadingToggle(modalLoad); //Modal loading off
           if (responseReg.statusCode !== 201) {
             displayModalAlert(responseReg.body, "danger");
           } else {

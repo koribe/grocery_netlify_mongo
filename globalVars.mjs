@@ -5,7 +5,8 @@ const logoutCont = document.querySelector("#logout-container");
 const newItemName = document.querySelector("#grocery");
 const newItemBtn = document.querySelector(".submit-btn");
 const deleteAllBtn = document.querySelector(".clear-btn");
-const loading = document.querySelector("#loading");
+const groceryLoad = document.querySelector("#grocery-load");
+const modalLoad = document.querySelector("#modal-load");
 
 let Variables = {
   editFlag: false,
@@ -21,6 +22,7 @@ export {
   newItemName,
   newItemBtn,
   deleteAllBtn,
-  loading,
+  groceryLoad,
+  modalLoad,
   Variables,
 };
