@@ -36,13 +36,3 @@ export default async function dbRead() {
     }
   }
 }
-
-// showing loading
-function displayLoading() {
-  groceryLoad.classList.add("display");
-}
-
-// hiding loading
-function hideLoading() {
-  groceryLoad.classList.remove("display");
-}

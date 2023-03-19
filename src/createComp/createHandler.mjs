@@ -1,5 +1,6 @@
-import { newItemName, Variables } from "../../globalVars.mjs";
+import { newItemName, Variables, groceryLoad } from "../../globalVars.mjs";
 import requestCreate from "../groceryApiCalls/requestCreate.js";
+import loadingToggle from "../functions/loadingToggle.mjs";
 
 export default async function createHandler() {
   if (newItemName.value === "")
@@ -22,7 +23,8 @@ export default async function createHandler() {
       statusCode: 100005,
       body: "Már szerepel a listán",
     };
-
+  loadingToggle(groceryLoad); //loading state on
   const responseNewItem = await requestCreate(Variables.jwt, lowerNewItem);
+  loadingToggle(groceryLoad); //loading state off
   return responseNewItem;
 }
